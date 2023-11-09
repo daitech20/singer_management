@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for singer_management project.
 
@@ -12,8 +13,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 import sys
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
+
 from singer_management.config import sconfigs
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
