@@ -1,0 +1,87 @@
+version: "3.9"
+services:
+  redis:
+    image: 'redis:5'
+    container_name: singer_management_redis
+    command: redis-server --requirepass ${REDIS_PASS}
+    volumes:
+      - /var/lib/redis/${PROJECT_NAME}/data:/var/lib/redis/${PROJECT_NAME}/data
+    env_file:
+      - ./envs/.env
+    ports:
+      - "${REDIS_PORT}:6379"
+    restart: unless-stopped
+    networks:
+      - singer_management
+
+  postgres:
+    image: postgres
+    container_name: singer_management_postgres
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASS}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - /var/lib/postgresql/${PROJECT_NAME}/data:/var/lib/postgresql/${PROJECT_NAME}/data
+    env_file:
+      - ./envs/.env
+    ports:
+      - "${DATABASE_PORT}:5432"
+    restart: always
+    networks:
+      - singer_management
+
+  # celery_worker:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/local/django/Dockerfile
+  #   image: django_celery_worker
+  #   command: /start-celeryworker
+  #   volumes:
+  #     - .:/app
+  #   env_file:
+  #     - ./envs/.env
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #   networks:
+  #     - singer_management
+
+  # celery_beat:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/local/django/Dockerfile
+  #   image: django_celery_beat
+  #   command: /start-celerybeat
+  #   volumes:
+  #     - .:/app
+  #   env_file:
+  #     - ./envs/.env
+  #   depends_on:
+  #     - redis
+  #     - postgres
+  #   networks:
+  #     - singer_management
+
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    volumes:
+      - ./:/app
+    env_file:
+      - ./envs/.env
+    command: /start
+    ports:
+      - "${HOST_SERVER_PORT}:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - singer_management
+    tty: true
+
+networks:
+  singer_management:
+    name: singer_management
+    driver: bridge

@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "singer_management"
+version = "0.1.0"
+description = ""
+authors = ["daitech20 <daindp.tech@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4.2.7"
+pre-commit = "^3.5.0"
+pydantic-settings = "^2.0.3"
+pydantic = "^2.4.2"
+autopep8 = "^2.0.4"
+django-cors-headers = "^4.3.0"
+django-rest-framework = "^0.1.0"
+djangorestframework-simplejwt = "^5.3.0"
+psycopg2-binary = "^2.9.9"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
