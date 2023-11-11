@@ -49,10 +49,13 @@ _DJANGO_FRAMEWORK_APPS = [
 _THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 _PROJECT_APPS = [
-
+    'auth_user',
+    'management',
 ]
 
 INSTALLED_APPS = _DJANGO_FRAMEWORK_APPS + _THIRD_PARTY_APPS + _PROJECT_APPS
@@ -156,6 +159,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'auth_user.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

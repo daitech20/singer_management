@@ -18,7 +18,7 @@ def object_to_dict(obj):
         if isinstance(field_value, date):
             field_value = field_value.strftime('%Y-%m-%d')
         if isinstance(field_value, ImageFieldFile):
-            field_value = field_value.url
+            field_value = field_value.url if field_value else None
 
         if not field_name.startswith('_'):
             object_dict[field_name] = field_value
