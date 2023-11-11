@@ -136,7 +136,7 @@ DATABASES = {
         'USER': sconfigs.DATABASE_USER,
         'PASSWORD': sconfigs.DATABASE_PASS,
         'HOST': sconfigs.DATABASE_HOST,
-        'PORT': sconfigs.DATABASE_PORT
+        'PORT': 5432
     }
 }
 
@@ -185,3 +185,11 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Cors header
+CORS_ALLOW_ALL_ORIGINS = True
+
+# SSL
+CSRF_TRUSTED_ORIGINS = [sconfigs.HOST_DOMAINT]
+CORS_ALLOWED_ORIGINS = [sconfigs.HOST_DOMAINT]
+CORS_ORIGIN_WHITELIST = (sconfigs.HOST_DOMAINT,)
