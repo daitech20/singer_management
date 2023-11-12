@@ -59,8 +59,11 @@ def create_user(request):
 
     if serializer.is_valid():
         rdata = serializer.data
+    else:
+        errors = serializer.errors
+        raise ErrorResponseException(error=errors)
 
-    def validate_password(password):
+    def validate_password(password):  # noqa
         errors = dict()
         try:
             # validate the password and catch the exception
@@ -83,9 +86,11 @@ def create_user(request):
         with trans.atomic():
             user = User.objects.create(
                 username=rdata['username'],
+                fullname=rdata['fullname'],
+                avatar=rdata['avatar'],
                 role=role
             )
-            user.set_password(validate_password(rdata['password']))
+            user.set_password(rdata['password'])
             user.is_staff = True
             user.save()
 

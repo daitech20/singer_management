@@ -9,3 +9,4 @@ class UserCreateSchemas(serializers.Serializer):
     password = serializers.CharField(max_length=50)
     fullname = serializers.CharField(max_length=50)
     role_id = serializers.IntegerField()
+    avatar = serializers.FileField()
