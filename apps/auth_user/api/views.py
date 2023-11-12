@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import base64
+
 import django.contrib.auth.password_validation as validators
 from auth_user.api import schemas
 from auth_user.api.serializers import (CustomJWTSerializer,
@@ -8,6 +10,7 @@ from auth_user.api.serializers import (CustomJWTSerializer,
 from auth_user.models import Role, User
 from django.contrib.auth.hashers import make_password
 from django.core import exceptions
+from django.core.files.base import ContentFile
 from django.db import transaction as trans
 from django.http.response import Http404
 from django.views.decorators.csrf import csrf_exempt
@@ -83,11 +86,18 @@ def create_user(request):
         if User.objects.filter(username=rdata['username']).exists():
             raise serializers.ValidationError({"username": "User name already exists"})
 
+        image_data = request.data.get('avatar')
+        if not image_data:
+            raise ErrorResponseException(error="missing avatar")
+        format, imgstr = image_data.split(';base64,')
+        ext = format.split('/')[-1]
+        image_data = ContentFile(base64.b64decode(imgstr), name=f'avatar.{ext}')
+
         with trans.atomic():
             user = User.objects.create(
                 username=rdata['username'],
                 fullname=rdata['fullname'],
-                avatar=rdata['avatar'],
+                avatar=image_data,
                 role=role
             )
             user.set_password(rdata['password'])
@@ -154,6 +164,14 @@ class UserUpdate(generics.UpdateAPIView):
 
                 serializer.save()
                 user = User.objects.get(id=serializer.data["id"])
+
+                image_data = request.data.get('avatar')
+                if image_data:
+                    format, imgstr = image_data.split(';base64,')
+                    ext = format.split('/')[-1]
+                    image_data = ContentFile(base64.b64decode(imgstr), name=f'avatar.{ext}')
+                    user.avatar = image_data
+                    user.save()
 
                 data = object_to_dict(user)
                 data.pop("password")
