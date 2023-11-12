@@ -20,7 +20,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
                 'fullname': self.user.fullname,
                 'is_superuser': self.user.is_superuser,
                 'is_staff': self.user.is_staff,
-                'avatar': self.user.avatar if self.user.avatar else None,
+                'avatar': self.user.avatar.url if self.user.avatar else None,
                 'role': {
                     'id': self.user.role.id,
                     'name': self.user.role.name
