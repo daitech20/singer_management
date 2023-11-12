@@ -119,6 +119,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'fullname', 'is_superuser', 'is_staff', 'role', 'avatar')
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['avatar'] = instance.avatar.url if instance.avatar else None
+
+        return representation
+
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     role_id = serializers.PrimaryKeyRelatedField(
@@ -130,3 +136,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'password', 'fullname', 'role_id', 'avatar')
+
+    def get_image_field(self, obj):
+        image_path = obj.avatar.url
+
+        return image_path if image_path else None
