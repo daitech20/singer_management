@@ -179,7 +179,7 @@ USE_TZ = False
 STATIC_URL = "django-static/"
 STATIC_ROOT = BASE_DIR / 'django-static'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = f'{sconfigs.HOST_DOMAINT}/media/'
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
