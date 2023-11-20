@@ -24,6 +24,7 @@ class Settings(BaseSettings):
 
     HOST_SERVER_PORT: Optional[int] = 8001
     HOST_DOMAINT: Optional[str] = 'HOST_DOMAINT'
+    HOST_LOCAL: Optional[str] = 'HOST_LOCAL'
 
     class Config:
         env_file = env_file_path

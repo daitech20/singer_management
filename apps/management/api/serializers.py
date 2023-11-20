@@ -30,7 +30,7 @@ class ImgSerializer(serializers.ModelSerializer):
 
         image_value = data.get('value')
 
-        if image_value and sconfigs.HOST_DOMAINT not in image_value:
+        if image_value and sconfigs.HOST_LOCAL not in image_value:
             data['value'] = f"{sconfigs.HOST_DOMAINT}{image_value}"
 
         return data
