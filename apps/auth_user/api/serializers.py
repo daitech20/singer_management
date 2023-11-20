@@ -131,7 +131,10 @@ class UserSerializer(serializers.ModelSerializer):
 
         avatar = data.get('avatar')
 
-        if avatar and sconfigs.HOST_LOCAL not in avatar:
+        if avatar and sconfigs.HOST_LOCAL in avatar:
+            avatar = avatar.replace(sconfigs.HOST_LOCAL, sconfigs.HOST_DOMAINT)
+            data['avatar'] = avatar
+        elif avatar and sconfigs.HOST_LOCAL not in avatar:
             data['avatar'] = f"{sconfigs.HOST_DOMAINT}{avatar}"
 
         return data
