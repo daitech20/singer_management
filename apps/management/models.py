@@ -18,11 +18,11 @@ class TimeLocation(BaseModel):
 
 
 class ChargeOf(BaseModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
 
 class Brand(BaseModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
 
 class Img(BaseModel):
@@ -30,7 +30,7 @@ class Img(BaseModel):
 
 
 class Stylist(BaseModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     images = models.ManyToManyField(Img, blank=True)
 
 

@@ -39,4 +39,5 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
     path('auth/', include('apps.auth_user.urls')),
+    path('management/', include('apps.management.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
