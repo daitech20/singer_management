@@ -77,18 +77,25 @@ class StylistCreateSerializer(serializers.ModelSerializer):
 
 class StylistUpdateSerializer(serializers.ModelSerializer):
     images = ImgCreateSerializer(many=True, required=False)
+    delete_images = serializers.ListField(child=serializers.IntegerField(), required=False)
 
     class Meta:
         model = Stylist
-        fields = ('id', 'name', 'images')
+        fields = ('id', 'name', 'images', 'delete_images')
 
     def update(self, instance, validated_data):
         images_data = validated_data.pop('images', [])
+        data_delete_images = validated_data.pop('delete_images', [])
         instance = super(StylistUpdateSerializer, self).update(instance, validated_data)
-        instance.images.clear()
         for image_data in images_data:
             img = Img.objects.create(**image_data)
             instance.images.add(img)
+
+        for delete_image in data_delete_images:
+            img = Img.objects.filter(id=delete_image).first()
+            if img:
+                instance.images.remove(img)
+                img.delete()
 
         instance.save()
 
@@ -125,19 +132,26 @@ class MakeupHairCreateSerializer(serializers.ModelSerializer):
 
 class MakeupHairUpdateSerializer(serializers.ModelSerializer):
     images = ImgCreateSerializer(many=True, required=False)
+    delete_images = serializers.ListField(child=serializers.IntegerField(), required=False)
 
     class Meta:
         model = MakeupHair
-        fields = ('id', 'make_up', 'make_hair', 'images')
+        fields = ('id', 'make_up', 'make_hair', 'images', 'delete_images')
 
     def update(self, instance, validated_data):
         images_data = validated_data.pop('images', [])
+        data_delete_images = validated_data.pop('delete_images', [])
         super(MakeupHairUpdateSerializer, self).update(instance, validated_data)
 
-        instance.images.clear()
         for image_data in images_data:
             img = Img.objects.create(**image_data)
             instance.images.add(img)
+
+        for delete_image in data_delete_images:
+            img = Img.objects.filter(id=delete_image).first()
+            if img:
+                instance.images.remove(img)
+                img.delete()
 
         instance.save()
 

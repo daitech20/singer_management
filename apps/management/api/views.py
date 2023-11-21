@@ -229,6 +229,19 @@ class StylistUpdate(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
 
+    def update(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+
+                return success_api_resp(data=serializer.data)
+            else:
+                raise ErrorResponseException(error=serializer.errors)
+        except Exception as e:
+            raise ErrorResponseException(error=str(e))
+
 
 class StylistDelete(generics.DestroyAPIView):
     queryset = Stylist.objects.all()
@@ -296,6 +309,19 @@ class MakeupHairUpdate(generics.UpdateAPIView):
     serializer_class = MakeupHairUpdateSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
+
+    def update(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+
+                return success_api_resp(data=serializer.data)
+            else:
+                raise ErrorResponseException(error=serializer.errors)
+        except Exception as e:
+            raise ErrorResponseException(error=str(e))
 
 
 class MakeupHairDelete(generics.DestroyAPIView):
