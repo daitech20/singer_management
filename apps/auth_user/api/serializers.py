@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import django.contrib.auth.password_validation as validators
+import django.contrib.auth.password_validation as validators  # noqa
 from auth_user.models import Role, User
-from django.core import exceptions
+from django.core import exceptions  # noqa
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import (TokenObtainPairSerializer,
@@ -77,17 +77,17 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'password', 'fullname', 'avatar', 'role_id']
 
-    def validate(self, attrs):
-        errors = dict()
-        try:
-            validators.validate_password(password=attrs['password'])
-        except exceptions.ValidationError as e:
-            errors['password'] = list(e.messages)
+    # def validate(self, attrs):
+    #     errors = dict()
+    #     try:
+    #         validators.validate_password(password=attrs['password'])
+    #     except exceptions.ValidationError as e:
+    #         errors['password'] = list(e.messages)
 
-        if errors:
-            raise serializers.ValidationError(errors)
+    #     if errors:
+    #         raise serializers.ValidationError(errors)
 
-        return attrs
+    #     return attrs
 
     def create(self, validated_data):
         if User.objects.filter(username=validated_data["username"]).exists():
