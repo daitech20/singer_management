@@ -30,8 +30,11 @@ class ImgSerializer(serializers.ModelSerializer):
 
         image_value = data.get('value')
 
-        if image_value and sconfigs.HOST_LOCAL not in image_value:
-            data['value'] = f"{sconfigs.HOST_DOMAINT}{image_value}"
+        if image_value and sconfigs.HOST_LOCAL in image_value:
+            image_value = image_value.replace(sconfigs.HOST_LOCAL, sconfigs.HOST_DOMAINT)
+            data['value'] = image_value
+        elif image_value and sconfigs.HOST_LOCAL not in image_value:
+            data['avatar'] = f"{sconfigs.HOST_DOMAINT}{image_value}"
 
         return data
 
