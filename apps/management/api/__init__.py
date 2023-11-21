@@ -31,4 +31,7 @@ urlpatterns = [
     path('delete-time_location/<int:id>', views.TimeLocationDelete.as_view(), name='delete_time_location'),
     path('create-schedule', views.ScheduleCreate.as_view(), name='create_schedule'),
     path('list-schedule', views.ScheduleListView.as_view(), name='list_schedule'),
+    path('get-schedule/<int:id>', views.ScheduleDetail.as_view(), name='get_schedule'),
+    path('update-schedule/<int:id>', views.ScheduleUpdate.as_view(), name='update_schedule'),
+    path('delete-schedule/<int:id>', views.ScheduleDelete.as_view(), name='delete_schedule'),
 ]
