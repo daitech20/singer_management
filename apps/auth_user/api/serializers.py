@@ -15,6 +15,16 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # The default result (access/refresh tokens)
         data = super(MyTokenObtainPairSerializer, self).validate(attrs)
         # Custom data you want to include
+
+        avatar_url = None
+        if self.user.avatar:
+            avatar_url = self.user.avatar.url
+
+        if avatar_url and sconfigs.HOST_LOCAL in avatar_url:
+            avatar_url = avatar_url.replace(sconfigs.HOST_LOCAL, sconfigs.HOST_DOMAINT)
+        elif avatar_url and sconfigs.HOST_LOCAL not in avatar_url:
+            avatar_url = f"{sconfigs.HOST_DOMAINT}{avatar_url}"
+
         data.update({
             'user': {
                 'id': self.user.id,
@@ -23,13 +33,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
                 'fullname': self.user.fullname,
                 'is_superuser': self.user.is_superuser,
                 'is_staff': self.user.is_staff,
-                'avatar': self.user.avatar.url if self.user.avatar else None,
+                'avatar': avatar_url,
                 'role': {
                     'id': self.user.role.id,
                     'name': self.user.role.name
                 }
             }
         })
+
         response_data = {
             'success': 1,
             'data': data
