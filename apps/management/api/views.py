@@ -446,12 +446,17 @@ class ScheduleListView(APIView):
         if type_date == 0:
             queryset = Schedule.objects.filter(time_localtion_id__show_date__year=date.year)
         elif type_date == 1:
-            queryset = Schedule.objects.filter(time_localtion_id__show_date__month=date.month)
+            queryset = Schedule.objects.filter(time_localtion_id__show_date__year=date.year,
+                                               time_localtion_id__show_date__month=date.month)
         elif type_date == 2:
-            queryset = Schedule.objects.filter(time_localtion_id__show_date__day=date.day)
+            queryset = Schedule.objects.filter(
+                time_localtion_id__show_date__year=date.year,
+                time_localtion_id__show_date__month=date.month,
+                time_localtion_id__show_date__day=date.day
+            )
 
         if user_id != 0:
-            queryset = Schedule.objects.filter(user_id__id=user_id)
+            queryset = queryset.filter(user_id__id=user_id)
 
         return queryset
 
