@@ -18,7 +18,7 @@ class TimeLocation(BaseModel):
 
 
 class ChargeOf(BaseModel):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
 
 
 class Brand(BaseModel):
