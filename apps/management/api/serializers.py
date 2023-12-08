@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from auth_user.api.serializers import UserSerializer
 from drf_extra_fields.fields import Base64ImageField
-from management.models import (Brand, ChargeOf, Img, MakeupHair, Schedule,
-                               Stylist, TimeLocation)
+from management.models import (Brand, ChargeOf, Device, Img, MakeupHair,
+                               Schedule, Stylist, TimeLocation)
 from rest_framework import serializers
 
 from singer_management.config import sconfigs
@@ -192,3 +192,9 @@ class ScheduleListParamsSerializer(serializers.Serializer):
         if value not in [0, 1, 2]:
             raise serializers.ValidationError("Invalid type_date value.")
         return value
+
+
+class DeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Device
+        fields = '__all__'

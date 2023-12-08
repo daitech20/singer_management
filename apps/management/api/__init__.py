@@ -34,4 +34,9 @@ urlpatterns = [
     path('get-schedule/<int:id>', views.ScheduleDetail.as_view(), name='get_schedule'),
     path('update-schedule/<int:id>', views.ScheduleUpdate.as_view(), name='update_schedule'),
     path('delete-schedule/<int:id>', views.ScheduleDelete.as_view(), name='delete_schedule'),
+    path('create-device', views.DeviceCreate.as_view(), name='create_device'),
+    path('list-device', views.DeviceList.as_view(), name='list_device'),
+    path('get-device/<int:id>', views.DeviceDetail.as_view(), name='get_device'),
+    path('update-device/<int:id>', views.DeviceUpdate.as_view(), name='update_device'),
+    path('delete-device/<int:id>', views.DeviceDelete.as_view(), name='delete_device'),
 ]

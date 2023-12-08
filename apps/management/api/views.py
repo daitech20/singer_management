@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from management.api.serializers import (BrandListSerializer,
                                         ChargeOfListSerializer,
+                                        DeviceSerializer,
                                         MakeupHairCreateSerializer,
                                         MakeupHairListSerializer,
                                         MakeupHairUpdateSerializer,
@@ -11,8 +12,8 @@ from management.api.serializers import (BrandListSerializer,
                                         StylistListSerializer,
                                         StylistUpdateSerializer,
                                         TimeLocationSerializer)
-from management.models import (Brand, ChargeOf, MakeupHair, Schedule, Stylist,
-                               TimeLocation)
+from management.models import (Brand, ChargeOf, Device, MakeupHair, Schedule,
+                               Stylist, TimeLocation)
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -509,6 +510,86 @@ class ScheduleUpdate(generics.UpdateAPIView):
 class ScheduleDelete(generics.DestroyAPIView):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            instance.delete()
+            return success_api_resp(data=[])
+
+        except Exception as e:
+            raise ErrorResponseException(error=str(e))
+
+
+class DeviceCreate(generics.CreateAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+
+        return success_api_resp(data=serializer.data)
+
+
+class DeviceList(generics.ListAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+
+        return success_api_resp(data=serializer.data)
+
+
+class DeviceDetail(generics.RetrieveAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance)
+
+            return success_api_resp(data=serializer.data)
+        except Exception as e:
+            raise ErrorResponseException(error=str(e))
+
+
+class DeviceUpdate(generics.UpdateAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'id'
+
+    def update(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+
+                return success_api_resp(data=serializer.data)
+            else:
+                raise ErrorResponseException(error=serializer.errors)
+        except Exception as e:
+            raise ErrorResponseException(error=str(e))
+
+
+class DeviceDelete(generics.DestroyAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
     permission_classes = [IsAuthenticated]
     lookup_field = 'id'
 
