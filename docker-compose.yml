@@ -22,7 +22,7 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASS}
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      - /var/lib/postgresql/${PROJECT_NAME}/data:/var/lib/postgresql/${PROJECT_NAME}/data
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
     env_file:
       - ./envs/.env
     ports:
