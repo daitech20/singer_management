@@ -14,7 +14,7 @@ def notify_singer(schedule_id):
     try:
         schedule = Schedule.objects.get(pk=schedule_id)
         user = schedule.user_id
-        role = Role.objects.get(name="manager")
+        role = Role.objects.get(name="Manager")
         managers = User.objects.filter(role=role)
 
         expoPushTokens = []
