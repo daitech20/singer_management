@@ -3,4 +3,4 @@
 set -o errexit
 set -o nounset
 
-poetry run celery -A singer_management.settings.celery worker -l info
+poetry run celery -A singer_management.celery worker -l info
