@@ -51,6 +51,10 @@ _THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'drf_yasg',
+    'django_celery_results',
+    'celery',
+    'django_celery_beat',
+    'storages',
 ]
 
 _PROJECT_APPS = [
@@ -170,7 +174,9 @@ TIME_ZONE = "Asia/Ho_Chi_Minh"
 
 USE_I18N = True
 
-USE_TZ = False
+USE_L10N = True
+
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -185,6 +191,14 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Redis
+REDIS_URL = f'redis://:{sconfigs.REDIS_PASS}@' + sconfigs.REDIS_HOST + ':' + str(sconfigs.REDIS_PORT)
+# Celery
+CELERY_BROKER_URL = f"{REDIS_URL}/0"
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ALWAYS_EAGER = True
 
 # Cors header
 CORS_ALLOW_ALL_ORIGINS = True

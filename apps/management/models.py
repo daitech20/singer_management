@@ -48,6 +48,7 @@ class Schedule(BaseModel):
     stylist_id = models.ForeignKey(Stylist, on_delete=models.CASCADE, related_name='schedule_stylists')
     charge_of_id = models.ForeignKey(ChargeOf, on_delete=models.CASCADE, related_name='schedule_charge_ofs')
     brand_id = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='schedule_brands')
+    scheduled_task_id = models.CharField(max_length=255, null=True, blank=True)
 
 
 class Device(BaseModel):

@@ -16,10 +16,10 @@ createsuperuser:
 	${PYTHON} manage.py createsuperuser
 
 worker:
-	${PYTHON} -m celery -A vinatoday.settings.celery worker -l info
+	${PYTHON} -m celery -A singer_management.celery worker -l info
 
 beat:
-	${PYTHON} -m celery -A vinatoday.settings.celery beat -l info
+	${PYTHON} -m celery -A singer_management.celery beat -l info
 
 run_dev:
 	make migrations
