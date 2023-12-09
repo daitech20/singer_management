@@ -24,7 +24,7 @@ def notify_singer(schedule_id):
             expoPushTokens.append(user_token.push_token)
 
         for manager in managers:
-            for user_token in manager:
+            for user_token in manager.device_users.all():
                 expoPushTokens.append(user_token.push_token)
 
         for token in expoPushTokens:
