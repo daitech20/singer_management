@@ -31,21 +31,21 @@ services:
     networks:
       - singer_management
 
-  # celery_worker:
-  #   build:
-  #     context: .
-  #     dockerfile: ./compose/local/django/Dockerfile
-  #   image: django_celery_worker
-  #   command: /start-celeryworker
-  #   volumes:
-  #     - .:/app
-  #   env_file:
-  #     - ./envs/.env
-  #   depends_on:
-  #     - redis
-  #     - postgres
-  #   networks:
-  #     - singer_management
+  celery_worker:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: django_celery_worker
+    command: /start-celeryworker
+    volumes:
+      - .:/app
+    env_file:
+      - ./envs/.env
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - singer_management
 
   # celery_beat:
   #   build:
