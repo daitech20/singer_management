@@ -13,13 +13,19 @@ from singer_management.celery import app
 def schedule_pre_save(sender, instance, **kwargs):
     if instance.pk:
         old_instance = Schedule.objects.get(pk=instance.pk)
-        if old_instance.time_localtion_id.show_time != instance.time_localtion_id.show_time:
-            if old_instance.scheduled_task_id:
-                app.control.revoke(old_instance.scheduled_task_id)
+        # if old_instance.time_localtion_id.show_time != instance.time_localtion_id.show_time:
+        #     if old_instance.scheduled_task_id:
+        #         app.control.revoke(old_instance.scheduled_task_id)
 
-            task = notify_singer.apply_async(
-                args=[instance.id], eta=instance.time_localtion_id.show_time - timedelta(hours=4))
-            instance.scheduled_task_id = task.id
+        #     task = notify_singer.apply_async(
+        #         args=[instance.id], eta=instance.time_localtion_id.show_time - timedelta(hours=4))
+        #     instance.scheduled_task_id = task.id
+        if old_instance.scheduled_task_id:
+            app.control.revoke(old_instance.scheduled_task_id)
+
+        task = notify_singer.apply_async(
+            args=[instance.id], eta=instance.time_localtion_id.show_time - timedelta(hours=4))
+        instance.scheduled_task_id = task.id
 
 
 @receiver(post_save, sender=Schedule)

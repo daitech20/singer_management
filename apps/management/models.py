@@ -19,6 +19,7 @@ class TimeLocation(BaseModel):
 
 class ChargeOf(BaseModel):
     name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=11)
 
 
 class Brand(BaseModel):
@@ -30,7 +31,7 @@ class Img(BaseModel):
 
 
 class Stylist(BaseModel):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     images = models.ManyToManyField(Img, blank=True)
 
 

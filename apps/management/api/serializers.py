@@ -17,7 +17,7 @@ class BrandListSerializer(serializers.ModelSerializer):
 class ChargeOfListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChargeOf
-        fields = ('id', 'name',)
+        fields = ('id', 'name', 'phone',)
 
 
 class ImgSerializer(serializers.ModelSerializer):
@@ -195,6 +195,14 @@ class ScheduleListParamsSerializer(serializers.Serializer):
 
 
 class DeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Device
+        fields = '__all__'
+
+
+class DeviceListSerializer(serializers.ModelSerializer):
+    user_id = UserSerializer()
+
     class Meta:
         model = Device
         fields = '__all__'

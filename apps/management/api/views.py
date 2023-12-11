@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from management.api.serializers import (BrandListSerializer,
                                         ChargeOfListSerializer,
-                                        DeviceSerializer,
+                                        DeviceListSerializer, DeviceSerializer,
                                         MakeupHairCreateSerializer,
                                         MakeupHairListSerializer,
                                         MakeupHairUpdateSerializer,
@@ -541,7 +541,7 @@ class DeviceCreate(generics.CreateAPIView):
 
 class DeviceList(generics.ListAPIView):
     queryset = Device.objects.all()
-    serializer_class = DeviceSerializer
+    serializer_class = DeviceListSerializer
     permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):

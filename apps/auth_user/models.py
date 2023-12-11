@@ -18,6 +18,7 @@ class User(AbstractUser):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="user_roles", null=True, blank=False)
     avatar = models.ImageField(upload_to='avatar/', null=True, blank=True)
     fullname = models.CharField(max_length=50)
+    color = models.CharField(max_length=50)
 
     def __str__(self) -> str:
         return self.username

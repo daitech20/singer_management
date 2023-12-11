@@ -37,7 +37,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
                 'role': {
                     'id': self.user.role.id,
                     'name': self.user.role.name
-                }
+                },
+                'color': self.user.color
             }
         })
 
@@ -86,7 +87,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'fullname', 'avatar', 'role_id']
+        fields = ['id', 'username', 'password', 'fullname', 'avatar', 'role_id', 'color']
 
     # def validate(self, attrs):
     #     errors = dict()
@@ -113,7 +114,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             username=validated_data['username'],
             fullname=validated_data['fullname'],
             avatar=validated_data['avatar'],
-            role=role
+            role=role,
+            color=validated_data['color']
         )
 
         user.set_password(validated_data['password'])
@@ -135,7 +137,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'fullname', 'is_superuser', 'is_staff', 'role', 'avatar')
+        fields = ('id', 'username', 'fullname', 'is_superuser', 'is_staff', 'role', 'avatar', 'color')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
