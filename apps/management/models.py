@@ -23,7 +23,7 @@ class ChargeOf(BaseModel):
 
 
 class Brand(BaseModel):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
 
 
 class Img(BaseModel):
