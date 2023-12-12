@@ -159,4 +159,4 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'fullname', 'role_id', 'avatar')
+        fields = ('id', 'fullname', 'role_id', 'avatar', 'color',)
