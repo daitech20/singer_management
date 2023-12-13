@@ -10,13 +10,13 @@ headers = {
 }
 
 
-def send_notify(expoPushToken):
+def send_notify(expoPushToken, message):
     conn = http.client.HTTPSConnection("exp.host")
     payload = json.dumps({
         "to": expoPushToken,
         "sound": "default",
-        "title": "Ban co lich trinh dien sap toi",
-        "body": "Ban co lich trinh dien sap toi",
+        "title": "Bạn có lịch trình diễn sắp tới",
+        "body": message,
         "data": {
             "abc": "1122"
         }

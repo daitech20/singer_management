@@ -27,8 +27,10 @@ def notify_singer(schedule_id):
             for user_token in manager.device_users.all():
                 expoPushTokens.append(user_token.push_token)
 
+        message = f"{user.fullname} sẽ có lịch trình diễn trong 4 giờ tới!"
+
         for token in expoPushTokens:
-            send_notify(token)
+            send_notify(token, message)
 
     except Exception as e:
         logger.error(str(e))
