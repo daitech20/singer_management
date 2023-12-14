@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
@@ -23,16 +23,19 @@ def schedule_pre_save(sender, instance, **kwargs):
         if old_instance.scheduled_task_id:
             app.control.revoke(old_instance.scheduled_task_id)
 
+        combined_datetime = datetime.combine(instance.time_localtion_id.show_date, instance.time_localtion_id.show_time)
+
         task = notify_singer.apply_async(
-            args=[instance.id], eta=instance.time_localtion_id.show_time - timedelta(hours=4))
+            args=[instance.id], eta=combined_datetime - timedelta(hours=4))
         instance.scheduled_task_id = task.id
 
 
 @receiver(post_save, sender=Schedule)
 def schedule_post_save(sender, instance, created, **kwargs):
     if created:  # noqa
+        combined_datetime = datetime.combine(instance.time_localtion_id.show_date, instance.time_localtion_id.show_time)
         task = notify_singer.apply_async(
-            args=[instance.id], eta=instance.time_localtion_id.show_time - timedelta(hours=4))
+            args=[instance.id], eta=combined_datetime - timedelta(hours=4))
 
         instance.scheduled_task_id = task.id
         instance.save()
