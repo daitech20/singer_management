@@ -8,8 +8,8 @@ from core.utils.django_base_models import BaseModel
 
 
 class TimeLocation(BaseModel):
-    make_up_time = models.DateTimeField()
-    leave_time = models.DateTimeField()
+    make_up_time = models.TimeField()
+    leave_time = models.TimeField()
     show_time = models.TimeField()
     show_date = models.DateField()
     show_localtion = models.CharField(max_length=255)
