@@ -17,7 +17,7 @@ class BrandListSerializer(serializers.ModelSerializer):
 class ChargeOfListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChargeOf
-        fields = ('id', 'name', 'phone',)
+        fields = ('id', 'name', 'phone', 'note',)
 
 
 class ImgSerializer(serializers.ModelSerializer):

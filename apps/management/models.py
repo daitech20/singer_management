@@ -20,6 +20,7 @@ class TimeLocation(BaseModel):
 class ChargeOf(BaseModel):
     name = models.CharField(max_length=50)
     phone = models.CharField(max_length=11)
+    note = models.TextField(null=True, blank=True)
 
 
 class Brand(BaseModel):
