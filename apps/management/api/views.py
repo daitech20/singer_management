@@ -529,6 +529,12 @@ class DeviceCreate(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
+        push_token = serializer.validated_data.get('push_token')
+        existing_push_token = Device.objects.filter(push_token=push_token)
+
+        if existing_push_token.exists():
+            return success_api_resp(data=[])
+
         serializer.save()
 
     def create(self, request, *args, **kwargs):
