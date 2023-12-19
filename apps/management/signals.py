@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
 from management.models import Schedule
 from management.tasks import notify_singer
 
@@ -38,7 +39,7 @@ def schedule_post_save(sender, instance, created, **kwargs):
     combined_datetime = datetime.combine(instance.time_localtion_id.show_date, instance.time_localtion_id.show_time)
 
     task = notify_singer.apply_async(
-        args=[instance.id], eta=combined_datetime - timedelta(hours=4))
+        args=[instance.id], eta=timezone.make_aware(combined_datetime, timezone=timezone.get_default_timezone()) - timedelta(hours=4))  # noqa
 
     post_save.disconnect(schedule_post_save, sender=Schedule)
     instance.scheduled_task_id = task.id
