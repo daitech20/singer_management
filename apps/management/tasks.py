@@ -10,7 +10,7 @@ logger = get_task_logger(__name__)
 
 
 @app.task()
-def notify_singer(schedule_id):
+def notify_singer(schedule_id, message):
     try:
         schedule = Schedule.objects.get(pk=schedule_id)
         user = schedule.user_id
@@ -27,7 +27,7 @@ def notify_singer(schedule_id):
             for user_token in manager.device_users.all():
                 expoPushTokens.append(user_token.push_token)
 
-        message = f"{user.fullname} sẽ có lịch trình diễn sắp tới!"
+        # message = f"{user.fullname} sẽ có lịch trình diễn sắp tới!"
 
         for token in list(set(expoPushTokens)):
             send_notify(token, message)

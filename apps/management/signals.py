@@ -36,10 +36,18 @@ def schedule_post_save(sender, instance, created, **kwargs):
         if instance.scheduled_task_id:
             app.control.revoke(instance.scheduled_task_id)
 
-    combined_datetime = datetime.combine(instance.time_localtion_id.show_date, instance.time_localtion_id.show_time)
-
+    # Send mess when created
+    message = f"Bạn sẽ có lịch trình diễn vào ngày {instance.time_localtion_id.show_date.strftime('%d-%m-%Y')}"
     task = notify_singer.apply_async(
-        args=[instance.id], eta=timezone.make_aware(combined_datetime, timezone=timezone.get_default_timezone()) - timedelta(hours=4))  # noqa
+        args=[instance.id, message],
+    )  # noqa
+
+    combined_datetime = datetime.combine(instance.time_localtion_id.show_date, instance.time_localtion_id.show_time)
+    message = "Bạn sẽ có lịch trình diễn sắp tới!"
+    task = notify_singer.apply_async(
+        args=[instance.id, message],
+        eta=timezone.make_aware(combined_datetime, timezone=timezone.get_default_timezone()) - timedelta(hours=4)
+    )  # noqa
 
     post_save.disconnect(schedule_post_save, sender=Schedule)
     instance.scheduled_task_id = task.id
